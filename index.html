@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Number Guesser</title>
+  </head>
+  <body>
+    <main>
+      <div class="card">
+        <header>
+          <div class="card__header">
+            <h1 class="card__title">Number Guesser</h1>
+          </div>
+        </header>
+        <section>
+          <div class="card__body">
+            <h2 id="prompt" class="card__prompt">
+              Enter a number between 1 and 10:
+            </h2>
+            <form class="card__form">
+              <input type="number" id="num-input" class="card__input" />
+              <input
+                type="submit"
+                class="btn"
+                value="Submit"
+                aria-labelledby="prompt"
+              />
+            </form>
+          </div>
+        </section>
+      </div>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
