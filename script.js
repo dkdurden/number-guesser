@@ -4,44 +4,92 @@ const formUI = document.querySelector('form');
 const inputUI = document.querySelector('#num-input');
 const submitBtnUI = document.querySelector('.btn');
 
-let triesLeft = 1;
-let playAgain = false;
-const correctNumber = 5;
+const MIN = 1;
+const MAX = 10;
+
+let triesLeft = 3,
+  playAgain = false,
+  correctNumber = generateNumber(MIN, MAX);
 
 formUI.addEventListener('submit', handleSubmit);
 
 function handleSubmit(e) {
   e.preventDefault();
 
-  if (playAgain) window.location.reload();
-
   const guess = inputUI.value;
 
-  // if guess is correct, display success message and change submit button to play again
-  console.log(formUI);
-  if (parseInt(guess) === correctNumber) {
-    const msg = document.createElement('p');
-    msg.appendChild(
-      document.createTextNode('Correct! Click the button to play again.')
-    );
-    msg.className = 'success';
-
-    cardBodyUI.insertBefore(msg, formUI);
-
-    inputUI.disabled = true;
-
-    submitBtnUI.value = 'Play Again';
-    playAgain = true;
+  if (playAgain) {
+    resetGame();
+    return;
   }
 
-  // if guess is not correct and there are no tries left, display error and change submit to play again
+  if (parseInt(guess) === correctNumber) {
+    clearAlert();
 
-  // if guess is not correct and their are tries left, decrement triesLeft and display error
+    const message = 'Correct! Click the button to play again.';
+    const className = 'success';
 
-  //   triesLeft--;
+    showAlert(message, className);
 
-  //   if (triesLeft === 0) {
-  //     submitBtnUI.disabled = true;
-  //     inputUI.disabled = true;
-  //   }
+    endGame();
+  } else {
+    triesLeft--;
+    handleIncorrectGuess();
+  }
+}
+
+function showAlert(message, className) {
+  const msg = document.createElement('p');
+  msg.appendChild(document.createTextNode(message));
+  msg.id = 'alert';
+  msg.className = className;
+
+  cardBodyUI.insertBefore(msg, formUI);
+}
+
+function clearAlert() {
+  const msg = document.querySelector('#alert');
+  if (msg) msg.remove();
+}
+
+function handleIncorrectGuess() {
+  if (triesLeft === 0) {
+    clearAlert();
+
+    const message = 'Sorry, but you are out of tries. Play again';
+    const className = 'danger';
+
+    showAlert(message, className);
+
+    endGame();
+  } else {
+    clearAlert();
+
+    const message = `Sorry, but that's incorrect. ${triesLeft} tries remaining.`;
+    const className = 'danger';
+
+    showAlert(message, className);
+  }
+}
+
+function resetGame() {
+  clearAlert();
+
+  formUI.reset();
+  inputUI.disabled = false;
+  submitBtnUI.value = 'Submit';
+
+  correctNumber = generateNumber(MIN, MAX);
+  triesLeft = 3;
+  playAgain = false;
+}
+
+function endGame() {
+  inputUI.disabled = true;
+  submitBtnUI.value = 'Play Again';
+  playAgain = true;
+}
+
+function generateNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
