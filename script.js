@@ -3,6 +3,8 @@ const cardBodyUI = document.querySelector('.card__body');
 const formUI = document.querySelector('form');
 const inputUI = document.querySelector('#num-input');
 const submitBtnUI = document.querySelector('.btn');
+const minNumUI = document.querySelector('#min-num');
+const maxNumUI = document.querySelector('#max-num');
 
 const MIN = 1;
 const MAX = 10;
@@ -11,6 +13,10 @@ let triesLeft = 3,
   playAgain = false,
   correctNumber = generateNumber(MIN, MAX);
 
+minNumUI.textContent = MIN;
+maxNumUI.textContent = MAX;
+inputUI.setAttribute('min', MIN);
+inputUI.setAttribute('max', MAX);
 formUI.addEventListener('submit', handleSubmit);
 
 function handleSubmit(e) {
@@ -26,6 +32,8 @@ function handleSubmit(e) {
   if (parseInt(guess) === correctNumber) {
     clearAlert();
 
+    inputUI.style.borderColor = 'green';
+
     const message = 'Correct! Click the button to play again.';
     const className = 'success';
 
@@ -34,6 +42,7 @@ function handleSubmit(e) {
     endGame();
   } else {
     triesLeft--;
+    inputUI.style.borderColor = 'red';
     handleIncorrectGuess();
   }
 }
@@ -65,7 +74,9 @@ function handleIncorrectGuess() {
   } else {
     clearAlert();
 
-    const message = `Sorry, but that's incorrect. ${triesLeft} tries remaining.`;
+    const message = `Sorry, but that's incorrect. ${`${triesLeft} ${
+      triesLeft === 1 ? 'try' : 'tries'
+    }`} remaining.`;
     const className = 'danger';
 
     showAlert(message, className);
@@ -77,6 +88,7 @@ function resetGame() {
 
   formUI.reset();
   inputUI.disabled = false;
+  inputUI.style.borderColor = 'initial';
   submitBtnUI.value = 'Submit';
 
   correctNumber = generateNumber(MIN, MAX);
