@@ -65,7 +65,7 @@ function handleIncorrectGuess() {
   if (triesLeft === 0) {
     clearAlert();
 
-    const message = 'Sorry, but you are out of tries. Play again';
+    const message = `Sorry, but you are out of tries. The winning number was ${correctNumber}.`;
     const className = 'danger';
 
     showAlert(message, className);
