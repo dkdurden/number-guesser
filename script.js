@@ -74,6 +74,8 @@ function handleIncorrectGuess() {
   } else {
     clearAlert();
 
+    formUI.reset();
+
     const message = `Sorry, but that's incorrect. ${`${triesLeft} ${
       triesLeft === 1 ? 'try' : 'tries'
     }`} remaining.`;
